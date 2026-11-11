@@ -1,0 +1,116 @@
+name: Deploy to Vercel
+
+on:
+    push:
+        branches: [main]
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+jobs:
+  version-and-deploy:
+    runs-on: ubuntu-latest
+    name: Version Update and Deploy
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "latest"
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "samikshaagarwal08"
+          git config --global user.email "mohit3rke@gmail.com"
+
+      - name: Generate version
+        id: version
+        run: |
+          VERSION="v$(date +'%Y.%m.%d')-$(git rev-parse --short HEAD)"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Generated version: $VERSION"
+
+      - name: Update package.json version
+        run: |
+          if [ -f "package.json" ]; then
+            bun install
+            npm version ${{ steps.version.outputs.version }} --no-git-tag-version
+          fi
+
+      - name: Update README.md
+        run: |
+          cat > README.md << EOF
+          # My App
+
+          ## Current Version
+          **Version:** ${{ steps.version.outputs.version }}
+          **Deployed:** $(date +'%Y-%m-%d %H:%M:%S UTC')
+          **Commit:** $(git rev-parse HEAD)
+
+          ## Latest Deployment
+          - **Status:** ✅ Automated
+          - **Environment:** Vercel
+          - **Branch:** ${{ github.ref_name }}
+
+          ## Deployment History
+          | Version | Date | Commit | Branch |
+          |--------|------|--------|--------|
+          | ${{ steps.version.outputs.version }} | $(date +'%Y-%m-%d') | \`$(git rev-parse --short HEAD)\` | ${{ github.ref_name }} |
+
+          EOF
+
+      - name: Commit version changes
+        run: |
+          git add .
+          git commit -m "🚀 Release ${{ steps.version.outputs.version }} [${{ github.ref_name }}]
+
+          - Version updated
+          - README updated
+          - Commit: $(git rev-parse --short HEAD)
+
+          [skip ci]" || echo "No changes to commit"
+
+      - name: Push changes
+        run: git push origin ${{ github.ref_name }} || echo "Nothing to push"
+
+      - name: Create Git Tag (prod only)
+        if: github.ref_name == 'prod'
+        run: |
+          git tag ${{ steps.version.outputs.version }}
+          git push origin ${{ steps.version.outputs.version }} || echo "Tag exists"
+
+      - name: Install Vercel CLI
+        run: bun install -g vercel@latest
+
+      - name: Deploy to Vercel (Prod or Preview)
+        run: |
+          echo "🚀 Branch: ${{ github.ref_name }}"
+
+          if [ "${{ github.ref_name }}" = "prod" ]; then
+            echo "Deploying to PRODUCTION"
+            vercel --prod --token=${{ env.VERCEL_TOKEN }} --yes
+          else
+            echo "Deploying PREVIEW"
+            vercel --token=${{ env.VERCEL_TOKEN }} --yes
+          fi
+
+      - name: Deployment Summary
+        run: |
+          echo "## 🚀 Deployment Complete" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** ${{ steps.version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Type:** $([[ '${{ github.ref_name }}' == 'prod' ]] && echo 'Production' || echo 'Preview')" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** $(git rev-parse --short HEAD)" >> $GITHUB_STEP_SUMMARY
