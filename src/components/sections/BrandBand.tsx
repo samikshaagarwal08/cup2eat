@@ -1,40 +1,32 @@
+"use client";
 
-const brandFeatures = [
-    {
-        icon: "🍪",
-        label: "Edible cups",
-    },
-    {
-        icon: "🌿",
-        label: "Eco-conscious concept",
-    },
-    {
-        icon: "🎉",
-        label: "Made for moments",
-    },
-    {
-        icon: "📦",
-        label: "Bulk enquiries welcome",
-    },
-];
+import { m } from "motion/react";
+import { highlights } from "@/lib/site";
 
 export default function BrandBand() {
-    return (
-        <section className="bg-forest py-5">
-            <div className="container flex flex-wrap items-center justify-around gap-x-5 gap-y-4">
-                {brandFeatures.map((feature) => (
-                    <div
-                        key={feature.label}
-                        className="flex items-center gap-2 text-sm font-bold text-white"
-                    >
-                        <span>{feature.icon}</span>
+    // Render the list twice so the loop is seamless when translating by -50%.
+    const items = [...highlights, ...highlights];
 
-                        <span className="text-[#f6c77f]">
-                            {feature.label}
-                        </span>
-                    </div>
+    return (
+        <section aria-label="CUP2EAT highlights" className="relative z-10 ml-[-5%] w-[110%] -rotate-1 overflow-hidden bg-forest py-4 shadow-lg sm:py-5">
+            <ul className="sr-only">
+                {highlights.map((h) => (
+                    <li key={h}>{h}</li>
                 ))}
-            </div>
+            </ul>
+            <m.div
+                aria-hidden="true"
+                className="flex w-max items-center gap-8 whitespace-nowrap will-change-transform"
+                animate={{ x: ["0%", "-50%"] }}
+                transition={{ duration: 32, repeat: Infinity, ease: "linear" }}
+            >
+                {items.map((label, i) => (
+                    <span key={i} className="flex items-center gap-8 font-heading text-lg font-semibold italic text-white! sm:text-xl!">
+                        {label}
+                        <span className="text-sm not-italic text-orange">✦</span>
+                    </span>
+                ))}
+            </m.div>
         </section>
     );
 }

@@ -1,34 +1,46 @@
+import { Reveal } from "@/components/motion/Reveal";
+import { cn } from "@/lib/utils";
 
 interface SectionHeadingProps {
     eyebrow: string;
     title: React.ReactNode;
     description?: string;
     className?: string;
+    tone?: "light" | "dark";
 }
 
 export default function SectionHeading({
     eyebrow,
     title,
     description,
-    className = "",
+    className,
+    tone = "light",
 }: SectionHeadingProps) {
-    return (
-        <div
-            className={`mx-auto mb-9.5 max-w-167.5 text-center ${className}`}
-        >
-            <p className="text-xs font-extrabold uppercase tracking-[2px] text-green">
-                {eyebrow}
-            </p>
+    const dark = tone === "dark";
 
-            <h2 className="mt-3 text-3xl font-bold leading-tight tracking-[-2px] text-ink sm:text-4xl lg:text-[48px]">
+    return (
+        <Reveal className={cn("mx-auto mb-10 max-w-170 text-center sm:mb-12", className)}>
+            <p className={cn("eyebrow", dark && "text-gold")}>{eyebrow}</p>
+
+            <h2
+                className={cn(
+                    "mt-3 text-[34px] font-semibold leading-[1.08] tracking-[-1px] sm:text-[44px] lg:text-[52px]",
+                    dark ? "text-white" : "text-ink"
+                )}
+            >
                 {title}
             </h2>
 
             {description && (
-                <p className="mt-4 text-sm leading-7 text-muted sm:text-base">
+                <p
+                    className={cn(
+                        "mt-4 text-[15px] leading-7 sm:text-base",
+                        dark ? "text-footer-text/80" : "text-muted"
+                    )}
+                >
                     {description}
                 </p>
             )}
-        </div>
+        </Reveal>
     );
 }

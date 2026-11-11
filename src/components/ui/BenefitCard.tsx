@@ -1,35 +1,19 @@
-
-import {
-    Card,
-    CardContent,
-} from "@/components/ui/card";
+import type { LucideIcon } from "lucide-react";
 
 interface BenefitCardProps {
-    icon: string;
+    icon: LucideIcon;
     title: string;
     description: string;
 }
 
-export default function BenefitCard({
-    icon,
-    title,
-    description,
-}: BenefitCardProps) {
+export default function BenefitCard({ icon: Icon, title, description }: BenefitCardProps) {
     return (
-        <Card className="rounded-[18px] border-none bg-paper py-0 shadow-none">
-            <CardContent className="p-5.25">
-                <span className="text-2xl" aria-hidden="true">
-                    {icon}
-                </span>
-
-                <h3 className="mt-2.5 text-base font-bold text-ink">
-                    {title}
-                </h3>
-
-                <p className="mt-1.5 text-[13px] leading-relaxed text-muted">
-                    {description}
-                </p>
-            </CardContent>
-        </Card>
+        <div className="group h-full rounded-[20px] border border-transparent bg-paper p-5.5 transition-colors duration-300 hover:border-border-green">
+            <span className="grid size-11 place-items-center rounded-xl bg-soft-green text-green transition-colors duration-300 group-hover:bg-forest group-hover:text-gold">
+                <Icon size={21} aria-hidden="true" />
+            </span>
+            <h3 className="mt-3.5 font-sans text-base font-bold text-ink">{title}</h3>
+            <p className="mt-1.5 text-[13.5px] leading-relaxed text-muted">{description}</p>
+        </div>
     );
 }

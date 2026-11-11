@@ -1,54 +1,41 @@
-
 import SectionHeading from "@/components/ui/SectionHeading";
 import CustomButton from "@/components/ui/CustomButton";
 import InstagramReelCard from "@/components/ui/InstagramReelCard";
-
-const instagramVideos = [
-    {
-        url: "https://www.instagram.com/reel/DfL86fQyfYT/?utm_source=ig_web_copy_link&exln=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==",
-        title: "Brownie cravings just got better! 🍫🤎 Indulge in delicious brownies served in our chocolate-coated edible cups, with different flavours and irresistible combinations. One cup, endless happiness! 😍",
-    },
-    {
-        url: "https://www.instagram.com/reel/Dfmf-ZxS_sr/?utm_source=ig_web_copy_link&srtk=MzRlODBiNWFlZA==",
-        title: "Real smiles, honest feedback, and lots of love for CUP2EAT! ❤️",
-    },
-    {
-        url: "https://www.instagram.com/reel/DfeVecPh0dp/?utm_source=ig_web_copy_link&dlrf=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==",
-        title: "Ice cream tastes even better when you can eat the cup too! 🍦🍫❤️",
-    },
-];
+import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
+import { reels, site } from "@/lib/site";
 
 export default function InstagramShowcase() {
     return (
-        <section className="py-19">
+        <section className="overflow-hidden py-20 sm:py-24">
             <div className="container">
-                {/* Section Heading */}
                 <SectionHeading
-                    eyebrow="From the CUP2EAT journey"
-                    title="Moments worth sharing."
-                    description="Watch our product showcases, event appearances and the CUP2EAT journey."
+                    eyebrow={`On Instagram · ${site.instagramHandle}`}
+                    title={
+                        <>
+                            Moments worth <span className="italic text-green">sharing.</span>
+                        </>
+                    }
+                    description="Real reactions from college fests, cafés and customers across India. Tap a reel to watch it right here."
                 />
 
-                {/* Instagram Reels */}
-                <div className="grid grid-cols-1 items-start gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                    {instagramVideos.map((video) => (
-                        <InstagramReelCard
-                            key={video.url}
-                            url={video.url}
-                            title={video.title}
-                        />
+                {/* horizontal snap-scroll on mobile, grid from tablet up */}
+                <Stagger className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 scrollbar-none sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 lg:grid-cols-4">
+                    {reels.map((reel) => (
+                        <StaggerItem key={reel.url} className="w-[72vw] max-w-75 shrink-0 snap-center sm:w-auto sm:max-w-none">
+                            <InstagramReelCard {...reel} />
+                        </StaggerItem>
                     ))}
-                </div>
+                </Stagger>
 
-                {/* Instagram CTA */}
-                <div className="mt-6 flex justify-center">
+                <Reveal className="mt-8 flex justify-center">
                     <CustomButton
-                        label="Follow @cup2eat on Instagram"
-                        href="https://www.instagram.com/cup2eat/"
+                        label={`Follow ${site.instagramHandle} on Instagram`}
+                        href={site.instagram}
                         variant="secondary"
                         showIcon
+                        newTab
                     />
-                </div>
+                </Reveal>
             </div>
         </section>
     );

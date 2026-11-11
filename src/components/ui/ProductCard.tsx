@@ -1,10 +1,4 @@
-
 import Image from "next/image";
-import {
-    Card,
-    CardContent,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
 interface ProductCardProps {
     image: string;
@@ -12,6 +6,7 @@ interface ProductCardProps {
     tag: string;
     title: string;
     description: string;
+    imagePosition?: string;
 }
 
 export default function ProductCard({
@@ -20,37 +15,26 @@ export default function ProductCard({
     tag,
     title,
     description,
+    imagePosition = "center",
 }: ProductCardProps) {
     return (
-        <Card className="overflow-hidden rounded-[22px] border-border-soft bg-paper py-0 shadow-none">
-            {/* Image */}
-            <div className="relative h-60 overflow-hidden bg-[#ead8b8]">
+        <article className="group h-full overflow-hidden rounded-[24px] border border-border-soft bg-paper transition-shadow duration-300 hover:shadow-[0_24px_50px_-24px_rgba(23,61,44,0.35)]">
+            <div className="relative aspect-3/4 overflow-hidden bg-[#ead8b8]">
                 <Image
                     src={image}
                     alt={imageAlt}
                     fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover transition-transform duration-500 hover:scale-105"
+                    sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 380px"
+                    className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+                    style={{ objectPosition: imagePosition }}
                 />
             </div>
 
-            {/* Content */}
-            <CardContent className="p-5.5">
-                <Badge
-                    variant="secondary"
-                    className="rounded-none bg-transparent p-0 text-[11px] font-extrabold uppercase tracking-[1px] text-green hover:bg-transparent"
-                >
-                    {tag}
-                </Badge>
-
-                <h3 className="mt-2 text-[22px] font-bold leading-tight text-ink">
-                    {title}
-                </h3>
-
-                <p className="mt-2 text-sm leading-[1.65] text-muted">
-                    {description}
-                </p>
-            </CardContent>
-        </Card>
+            <div className="p-6">
+                <p className="text-[11px] font-extrabold uppercase tracking-[1.5px] text-green">{tag}</p>
+                <h3 className="mt-2 text-[24px] font-semibold leading-tight text-ink">{title}</h3>
+                <p className="mt-2 text-sm leading-[1.7] text-muted">{description}</p>
+            </div>
+        </article>
     );
 }
