@@ -1,9 +1,11 @@
-import Image from "next/image";
+import HeroSection from "@/components/sections/HeroSection";
+import BrandBand from "@/components/sections/BrandBand";
 
 export default function Home() {
   return (
-    <h1 className="text-ink">
-      Eat your <span className="text-orange">drink.</span>
-    </h1>
+    <>
+      <HeroSection />
+      <BrandBand />
+    </>
   );
 }
