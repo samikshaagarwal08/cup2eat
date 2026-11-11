@@ -1,26 +1,99 @@
+
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ========================================
+   CUP2EAT DESIGN SYSTEM
+======================================== */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Brand Colors */
+  --color-forest: #173d2c;
+  --color-green: #285b3c;
+  --color-orange: #e99a42;
+
+  /* Background Colors */
+  --color-cream: #f8f3e8;
+  --color-paper: #fffdf7;
+  --color-soft-green: #e9eddf;
+
+  /* Text Colors */
+  --color-ink: #20251f;
+  --color-muted: #687064;
+
+  /* Border Colors */
+  --color-border-soft: #e9e1d2;
+  --color-border-green: #c8cdbf;
+  --color-border-input: #d8dfd2;
+
+  /* Footer Colors */
+  --color-footer: #102b1f;
+  --color-footer-text: #e3e9df;
+
+  /* Typography */
+  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ========================================
+   BASE STYLES
+======================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ========================================
+   REUSABLE CONTAINER
+======================================== */
+
+.container {
+  width: 100%;
+  max-width: 1160px;
+  margin-inline: auto;
+  padding-inline: 26px;
+}
+
+/* ========================================
+   RESPONSIVE CONTAINER
+======================================== */
+
+@media (max-width: 640px) {
+  .container {
+    padding-inline: 20px;
+  }
 }
