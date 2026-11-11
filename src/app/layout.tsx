@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import MotionProvider from "@/components/motion/MotionProvider";
 import ScrollProgress from "@/components/motion/ScrollProgress";
 import WhatsAppFab from "@/components/layout/WhatsAppFab";
+import DemoBadge from "@/components/layout/DemoBadge";
 import { site } from "@/lib/site";
 
 const geistSans = Geist({
@@ -67,6 +68,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <main className="flex-1">{children}</main>
           <Footer />
           <WhatsAppFab />
+          <DemoBadge />
         </MotionProvider>
       </body>
     </html>

@@ -65,7 +65,21 @@ export default function Footer() {
             </div>
 
             <div className="border-t border-white/10">
-                <div className="container flex flex-col gap-2 pb-24 pt-5 text-xs sm:pb-5 text-footer-text/60 sm:flex-row sm:items-center sm:justify-between">
+                <div className="container py-5">
+                    <div className="flex flex-col gap-3 rounded-2xl border border-gold/20 bg-white/[0.03] px-4 py-3.5 sm:flex-row sm:items-center sm:gap-4">
+                        <span className="inline-flex w-fit shrink-0 items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[1.5px] text-gold">
+                            <span className="size-1.5 rounded-full bg-gold" aria-hidden="true" />
+                            Preview Version
+                        </span>
+                        <p className="text-xs leading-relaxed text-footer-text/70">
+                            This website is a concept preview. Content and features may be updated based on final requirements.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div className="border-t border-white/10">
+                <div className="container flex flex-col gap-2 pb-12 pt-5 text-xs sm:pb-24 text-footer-text/60 sm:flex-row sm:items-center sm:justify-between">
                     <p>
                         © <CurrentYear /> CUP2EAT. All rights reserved. · Founded by {site.founder}
                     </p>
